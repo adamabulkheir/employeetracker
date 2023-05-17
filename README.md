@@ -1,4 +1,2 @@
-# employeetracker
+# Employee Tracker
 
-still workin' on this one, 
-sorry

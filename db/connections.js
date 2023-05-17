@@ -1,5 +1,5 @@
 const { default: inquirer } = require('inquirer');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -8,8 +8,5 @@ const db = mysql.createConnection({
     database: 'employees'
     });
 
-db.connect(function (err){
-    if (err) throw (err);
-});
 
 module.exports = db;
