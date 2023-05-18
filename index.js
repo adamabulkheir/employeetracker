@@ -79,7 +79,7 @@ async function startApp() {
         FROM employee AS e
         LEFT JOIN employee AS m ON m.id = e.manager_id
         INNER JOIN role AS r ON e.role_id = r.id
-        INNER JOIN department AS d ON r.department_id = d.id
+        INNER JOIN departments AS d ON r.department_id = d.id
         ORDER BY e.id`
         );
 
@@ -93,9 +93,9 @@ async function startApp() {
 
 
     async function viewDepartments() {
-        const [rows] = await connection.query(
-            `SELECT id, name AS department
-        FROM department
+        const [rows] = await (await connection).query(
+            `SELECT id, name AS departments
+        FROM departments
         ORDER BY id`
         );
 
@@ -105,10 +105,10 @@ async function startApp() {
     }
 
     async function viewRoles() {
-        const [rows] = await connection.query(
-            `SELECT r.id, r.title, d.name AS department, r.salary
+        const [rows] = await (await connection).query(
+            `SELECT r.id, r.title, d.name AS departments, r.salary
         FROM role AS r
-        INNER JOIN department AS d ON r.department_id = d.id
+        INNER JOIN departments AS d ON r.department_id = d.id
         ORDER BY r.id`
         );
 
