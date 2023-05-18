@@ -9,7 +9,7 @@
 
 ## Installation
 - To use Employee Tracker, you must have Node.js installed. Open the 'index.js' file in the integrated terminal, and rune "node index.js" to start the program.
-- Tutorial video:
+- Tutorial video: https://drive.google.com/file/d/1x2syzRjDDcozEkeXI_4588Hr7AhfyVGr/view
 
 ## Credits
 - Assisted on creating this by the help of my peers and external research tools.

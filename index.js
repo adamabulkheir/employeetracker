@@ -149,7 +149,7 @@ async function startApp() {
                 },
             ]);
     
-            await connection.query(
+            await (await connection).query(
                 `INSERT INTO employee (first_name, last_name, role_id, manager_id)
                 VALUES (?, ?, ?, ?)`,
                 [employeeData.first_name, employeeData.last_name, employeeData.role_id, employeeData.manager_id]
