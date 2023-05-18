@@ -118,3 +118,88 @@ async function startApp() {
     }
 
     startApp();
+
+    async function addEmployee() {
+        try {
+            const roles = await (await connection).query('SELECT id, title FROM role');
+            const managers = await (await connection).query('SELECT id, CONCAT(first_name, " ", last_name) AS manager FROM employee');
+    
+            const employeeData = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'first_name',
+                    message: "Enter the employee's first name:",
+                },
+                {
+                    type: 'input',
+                    name: 'last_name',
+                    message: "Enter the employee's last name:",
+                },
+                {
+                    type: 'list',
+                    name: 'role_id',
+                    message: "Select the employee's role:",
+                    choices: roles[0].map(role => ({ name: role.title, value: role.id })),
+                },
+                {
+                    type: 'list',
+                    name: 'manager_id',
+                    message: "Select the employee's manager:",
+                    choices: [...managers[0].map(manager => ({ name: manager.manager, value: manager.id })), { name: 'None', value: null }],
+                },
+            ]);
+    
+            await connection.query(
+                `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                VALUES (?, ?, ?, ?)`,
+                [employeeData.first_name, employeeData.last_name, employeeData.role_id, employeeData.manager_id]
+            );
+    
+            console.log('Employee added successfully!\n');
+    
+            startApp();
+        } catch (error) {
+            console.error('Error occurred:', error);
+        }
+    }
+
+    async function addDepartment() {
+        try {
+            const departmentData = await inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'Enter department name:',
+                },
+            ]);
+        await (await connection).query(
+            'INSERT INTO departments (name) VALUES (?)',
+            [departmentData.name]
+        );
+        console.log('department added\n');
+
+        startApp();
+    } catch (error) {
+        console.error('error occurred', error);
+    }
+}
+
+async function addRole() {
+    try {
+        const roleData = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: 'Enter new role title:',
+            },
+        ]);
+    await (await connection).query(
+        'INSERT INTO role (name) VALUES (?)',
+        [roleData.name]
+    );
+    console.log('role added\n');
+    startApp();
+    } catch (error) {
+        console.error('error occurred', error);
+    }
+}
